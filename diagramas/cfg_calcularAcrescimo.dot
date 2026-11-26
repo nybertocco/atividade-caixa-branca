@@ -1,0 +1,37 @@
+// Grafo de fluxo de controle - calcularAcrescimo(...) - código ORIGINAL (linhas 6-23)
+// N = 11, E = 13, P = 1  ->  V(G) = 13 - 11 + 2 = 4
+digraph calcularAcrescimo {
+  graph [rankdir=TB, fontname="Helvetica", fontsize=16, labelloc=t, nodesep=0.5, ranksep=0.45,
+         label="calcularAcrescimo(String pagamento, double subtotal, int parcelas)\nN = 11   E = 13   P = 1   V(G) = 4"];
+  node  [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#444444"];
+  edge  [fontname="Helvetica", fontsize=10, color="#444444"];
+
+  n1  [label="1\nL6-7  entrada\nacrescimo = 0", fillcolor="#E8F0FE"];
+  n2  [label="2\nL8  switch (pagamento)", shape=diamond, fillcolor="#FFF4CE"];
+  n3  [label="3\nL10  acrescimo = 0"];
+  n4  [label="4\nL11  break"];
+  n5  [label="5\nL13  if (parcelas > 1)", shape=diamond, fillcolor="#FFF4CE"];
+  n6  [label="6\nL14  acrescimo = subtotal * 0.08"];
+  n7  [label="7\nL16  acrescimo = subtotal * 0.03"];
+  n8  [label="8\nL18  break"];
+  n9  [label="9\nL20  acrescimo = 0"];
+  n10 [label="10\nL22  return acrescimo"];
+  n11 [label="11\nL23  saída", fillcolor="#E8F0FE"];
+
+  n1 -> n2  [label=" e1"];
+  n2 -> n3  [label=" e2: case \"PIX\""];
+  n2 -> n5  [label=" e3: case \"CREDITO\""];
+  n2 -> n9  [label=" e4: default"];
+  n3 -> n4  [label=" e5"];
+  n4 -> n10 [label=" e6"];
+  n5 -> n6  [label=" e7: V"];
+  n5 -> n7  [label=" e8: F"];
+  n6 -> n8  [label=" e9"];
+  n7 -> n8  [label=" e10"];
+  n8 -> n10 [label=" e11"];
+  n9 -> n10 [label=" e12: fim do switch"];
+  n10 -> n11 [label=" e13"];
+
+  { rank=same; n3; n5; n9; }
+  { rank=same; n6; n7; }
+}

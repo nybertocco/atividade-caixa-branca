@@ -1,0 +1,44 @@
+// Grafo de fluxo de controle - processar(...) - código ORIGINAL (linhas 25-45)
+// N = 14, E = 19, P = 1  ->  V(G) = 19 - 14 + 2 = 7
+// Arestas tracejadas vermelhas = desvios excepcionais modelados (NullPointerException -> catch)
+digraph processar {
+  graph [rankdir=TB, fontname="Helvetica", fontsize=16, labelloc=t, nodesep=0.55, ranksep=0.45,
+         label="processar(double[] precos, String pagamento, boolean vip, int parcelas)\nN = 14   E = 19   P = 1   V(G) = 7   (tracejado = aresta excepcional)"];
+  node  [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#444444"];
+  edge  [fontname="Helvetica", fontsize=10, color="#444444"];
+
+  n1  [label="1\nL25-26  entrada\nsubtotal = 0", fillcolor="#E8F0FE"];
+  n2  [label="2\nL27-28  try {  int i = 0"];
+  n3  [label="3\nL28  i < precos.length", shape=diamond, fillcolor="#FFF4CE"];
+  n4  [label="4\nL29  if (precos[i] >= 0)", shape=diamond, fillcolor="#FFF4CE"];
+  n5  [label="5\nL30  subtotal += precos[i]"];
+  n6  [label="6\nL28  i++"];
+  n7  [label="7\nL33  if (vip && subtotal > 100)", shape=diamond, fillcolor="#FFF4CE"];
+  n8  [label="8\nL34  subtotal = subtotal * 0.90"];
+  n9  [label="9\nL36  total = subtotal +\ncalcularAcrescimo(pagamento, subtotal, parcelas)", fillcolor="#F3E8FD"];
+  n10 [label="10\nL37  if (total >= 0)", shape=diamond, fillcolor="#FFF4CE"];
+  n11 [label="11\nL38-39  ultimoTotal = total\naprovado = true"];
+  n12 [label="12\nL41-42  catch (RuntimeException e)\n(vazio: exceção ignorada)", fillcolor="#FDE7E7", color="#C62828"];
+  n13 [label="13\nL44  return aprovado"];
+  n14 [label="14\nL45  saída", fillcolor="#E8F0FE"];
+
+  n1 -> n2   [label=" e1"];
+  n2 -> n3   [label=" e2"];
+  n3 -> n4   [label=" e3: V"];
+  n3 -> n7   [label=" e4: F (término do laço)"];
+  n3 -> n12  [label=" e5: NPE\n precos == null", style=dashed, color="#C62828", fontcolor="#C62828"];
+  n4 -> n5   [label=" e6: V"];
+  n4 -> n6   [label=" e7: F"];
+  n5 -> n6   [label=" e8"];
+  n6 -> n3   [label=" e9: volta do laço"];
+  n7 -> n8   [label=" e10: V"];
+  n7 -> n9   [label=" e11: F"];
+  n8 -> n9   [label=" e12"];
+  n9 -> n10  [label=" e13"];
+  n9 -> n12  [label=" e14: NPE\n pagamento == null\n(lançada no switch de\ncalcularAcrescimo)", style=dashed, color="#C62828", fontcolor="#C62828"];
+  n10 -> n11 [label=" e15: V"];
+  n10 -> n13 [label=" e16: F\n(inalcançável)", style=dotted];
+  n11 -> n13 [label=" e17"];
+  n12 -> n13 [label=" e18"];
+  n13 -> n14 [label=" e19"];
+}
